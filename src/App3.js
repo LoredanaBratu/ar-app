@@ -6,31 +6,42 @@ class ARItem extends Component {
     showPlane: false,
   };
 
-  componentDidMount() {
-    window.addEventListener("wheel", (event) => {
-      // small increments for smoother zooming
-      const delta = event.wheelDelta / 120 / 10;
-      let mycam = document.getElementById("cam").getAttribute("camera");
-      let finalZoom =
-        document.getElementById("cam").getAttribute("camera").zoom + delta;
+  // componentDidMount() {
+  //   window.addEventListener("wheel", (event) => {
+  //     // small increments for smoother zooming
+  //     const delta = event.wheelDelta / 120 / 10;
+  //     let mycam = document.getElementById("cam").getAttribute("camera");
+  //     let finalZoom =
+  //       document.getElementById("cam").getAttribute("camera").zoom + delta;
 
-      // limiting the zoom
-      if (finalZoom < 0.5) finalZoom = 0.5;
-      if (finalZoom > 2) finalZoom = 2;
-      mycam.zoom = finalZoom;
+  //     // limiting the zoom
+  //     if (finalZoom < 0.5) finalZoom = 0.5;
+  //     if (finalZoom > 2) finalZoom = 2;
+  //     mycam.zoom = finalZoom;
 
-      document.getElementById("cam").setAttribute("camera", mycam);
-    });
-  }
+  //     document.getElementById("cam").setAttribute("camera", mycam);
+  //   });
+  // }
   clicked() {
     alert("clicked");
     this.setState({ showPlane: true });
+  }
+
+  handleChangeItemColor() {
+    alert("red");
   }
   render() {
     const { imagSrc, showPlane } = this.state;
     return (
       <div className="App">
         <a-scene>
+          <a-scene>
+            <a-assets>
+              <a-asset-item id="scene" src="./assets/model.gltf"></a-asset-item>
+            </a-assets>
+            <a-entity gltf-model="#scene"></a-entity>
+          </a-scene>
+          {/* <a-entity gltf-model="url(./assets/archive/Sofa_01.gltf)"></a-entity> */}
           <a-marker preset="hiro">
             <a-cursor
               raycaster="objects: .clickable"
@@ -43,12 +54,19 @@ class ARItem extends Component {
                 src={imagSrc}
                 width="4"
                 height="4"
+                scale="2 2 2"
+                // rotation="0 45 45"
                 onClick={() => this.clicked()}
               ></a-image>
             </a-cursor>
+
             {showPlane && (
               <a-plane height="3" width="3" color="grey" position="-2 1 0">
                 <a-text value="teeext"></a-text>
+                <a-entity
+                  geometry="primitive: sphere; radius: 1"
+                  onClick={() => this.handleChangeItemColor()}
+                />
               </a-plane>
             )}
           </a-marker>
@@ -66,7 +84,7 @@ class ARItem extends Component {
             id="cam"
             camera="zoom: 1"
             look-controls
-            position="0 1 0"
+            position="0 0 0"
           ></a-entity>
         </a-scene>
       </div>
