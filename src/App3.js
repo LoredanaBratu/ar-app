@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { GLTFModel, AmbientLight, DirectionLight } from "react-3d-viewer";
 
 class ARItem extends Component {
   state = {
@@ -6,22 +7,6 @@ class ARItem extends Component {
     showPlane: false,
   };
 
-  // componentDidMount() {
-  //   window.addEventListener("wheel", (event) => {
-  //     // small increments for smoother zooming
-  //     const delta = event.wheelDelta / 120 / 10;
-  //     let mycam = document.getElementById("cam").getAttribute("camera");
-  //     let finalZoom =
-  //       document.getElementById("cam").getAttribute("camera").zoom + delta;
-
-  //     // limiting the zoom
-  //     if (finalZoom < 0.5) finalZoom = 0.5;
-  //     if (finalZoom > 2) finalZoom = 2;
-  //     mycam.zoom = finalZoom;
-
-  //     document.getElementById("cam").setAttribute("camera", mycam);
-  //   });
-  // }
   clicked() {
     alert("clicked");
     this.setState({ showPlane: true });
@@ -34,13 +19,14 @@ class ARItem extends Component {
     const { imagSrc, showPlane } = this.state;
     return (
       <div className="App">
+        <GLTFModel src="./assets/archive/Sofa_01.gltf"></GLTFModel>
         <a-scene>
-          <a-scene>
+          {/* <a-scene>
             <a-assets>
               <a-asset-item id="scene" src="./assets/model.gltf"></a-asset-item>
             </a-assets>
             <a-entity gltf-model="#scene"></a-entity>
-          </a-scene>
+          </a-scene> */}
           {/* <a-entity gltf-model="url(./assets/archive/Sofa_01.gltf)"></a-entity> */}
           <a-marker preset="hiro">
             <a-cursor
@@ -71,15 +57,6 @@ class ARItem extends Component {
             )}
           </a-marker>
 
-          {/* <a-entity
-            animation__click="property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 0.1 0.1 0.1; to: 1 1 1"
-            animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1"
-            animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
-            cursor="fuse: true;"
-            material="color: black; shader: flat"
-            position="0 0 -3"
-            geometry="primitive: ring"
-          ></a-entity> */}
           <a-entity
             id="cam"
             camera="zoom: 1"
